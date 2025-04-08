@@ -24,7 +24,7 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public Session findSessionBiId(UUID sessionId) {
+    public Session findSessionById(UUID sessionId) {
         return sessionRepository.findById(sessionId)
                 .orElse(null);
     }
@@ -33,6 +33,10 @@ public class SessionService {
     @Transactional
     public Session saveSession(Session session) {
         session.setExpiresAt(LocalDateTime.now().plusHours(1));
+        return sessionRepository.save(session);
+    }
+    @Transactional
+    public Session updateSession(Session session) {
         return sessionRepository.save(session);
     }
 

@@ -26,6 +26,10 @@ public class UserService {
         return usersRepository.findById(id).orElse(null);
     }
 
+    public User findUserByLogin(String login) {
+        return usersRepository.findByLogin(login);
+    }
+
     @Transactional
     public User saveUser(User user) {
         return usersRepository.save(user);

@@ -1,48 +1,46 @@
+
 plugins {
     id 'java'
     id 'war'
 }
 
-group 'com.example'
-version '1.0-SNAPSHOT'
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
 }
 
-ext {
-    junitVersion = '5.11.0'
-}
-
-sourceCompatibility = '17'
-targetCompatibility = '17'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
 dependencies {
-    providedCompile('jakarta.servlet:jakarta.servlet-api:6.1.0')
-
-    implementation 'org.hibernate.orm:hibernate-core:6.5.2.Final'
-    implementation 'org.liquibase:liquibase-core:4.30.0'
-    implementation 'org.springframework.security:spring-security-crypto:6.4.3'
-    implementation 'org.springframework:spring-context:6.2.3'
-    implementation 'org.springframework:spring-core:6.2.3'
-    implementation 'org.springframework:spring-beans:6.2.3'
-    implementation 'org.springframework:spring-webmvc:6.2.3'
-    implementation 'org.thymeleaf:thymeleaf-spring6:3.1.3.RELEASE'
-    implementation 'org.postgresql:postgresql:42.7.4'
-    implementation 'org.springframework:spring-orm:6.2.3'
-    implementation 'com.zaxxer:HikariCP:6.2.1'
+    // Spring MVC
+    implementation 'org.springframework:spring-webmvc:6.2.0'
+    implementation 'org.springframework:spring-context:6.2.0'
     implementation 'org.springframework.data:spring-data-jpa:3.4.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    implementation 'org.liquibase:liquibase-core:4.30.0'
+    implementation 'org.springframework:spring-tx:6.2.0'
+    implementation 'org.hibernate.orm:hibernate-core:6.5.2.Final'
+    implementation 'org.postgresql:postgresql:42.7.4'
+    implementation 'org.springframework:spring-orm:6.2.0'
+    implementation 'org.thymeleaf:thymeleaf:3.1.2.RELEASE'
+    implementation 'org.thymeleaf:thymeleaf-spring6:3.1.2.RELEASE'
 
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+   // implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+
+    // Логирование
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+
+    // Тестирование
+    testImplementation 'org.springframework:spring-test:6.1.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 }
 
 test {

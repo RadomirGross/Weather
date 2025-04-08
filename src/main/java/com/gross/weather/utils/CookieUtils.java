@@ -1,0 +1,34 @@
+package com.gross.weather.utils;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.util.WebUtils;
+
+import java.util.Optional;
+import java.util.UUID;
+
+public class CookieUtils {
+    public static Optional<Cookie> extractCookieFromRequest(HttpServletRequest request, String cookieName) {
+        Cookie cookie = WebUtils.getCookie(request, cookieName);
+        if (cookie == null) {
+            return Optional.empty();
+        }else  {
+            return Optional.of(cookie);
+        }
+    }
+
+    public static Optional<UUID> extractCookieId(HttpServletRequest request, String cookieName) {
+        Optional<Cookie> cookieOptional = extractCookieFromRequest(request, cookieName);
+        if (cookieOptional.isEmpty()) {
+            System.out.println("cookie<UNK>");
+            return Optional.empty();
+        }
+        try {
+            System.out.println(Optional.of(UUID.fromString(cookieOptional.get().getValue())));
+            return Optional.of(UUID.fromString(cookieOptional.get().getValue()));
+        } catch (IllegalArgumentException e) {
+            return Optional.empty();
+        }
+
+    }
+}
