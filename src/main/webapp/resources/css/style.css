@@ -17,7 +17,7 @@ section#page-content {
 }
 
 .weather-logo {
-    background-image: url("../WEB-INF/images/weather-app.png");
+    background-image: url("/resources/images/weather-app.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -27,4 +27,10 @@ section#page-content {
 
 .location-search-input-group .clear-input-button {
     border-color: rgb(222, 226, 230);
+}
+
+.error-message {
+    color: #dc3545; /* стандартный Bootstrap цвет для ошибок */
+    font-size: 1rem;
+    margin-top: 0.25rem;
 }

@@ -17,14 +17,13 @@ public class CookieUtils {
         }
     }
 
-    public static Optional<UUID> extractCookieId(HttpServletRequest request, String cookieName) {
+    public static Optional<UUID> extractUuidFromCookie(HttpServletRequest request, String cookieName) {
         Optional<Cookie> cookieOptional = extractCookieFromRequest(request, cookieName);
         if (cookieOptional.isEmpty()) {
-            System.out.println("cookie<UNK>");
             return Optional.empty();
         }
         try {
-            System.out.println(Optional.of(UUID.fromString(cookieOptional.get().getValue())));
+            System.out.println("!==!"+Optional.of(UUID.fromString(cookieOptional.get().getValue())));
             return Optional.of(UUID.fromString(cookieOptional.get().getValue()));
         } catch (IllegalArgumentException e) {
             return Optional.empty();

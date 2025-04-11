@@ -28,10 +28,10 @@ public class Location {
     @Column(name = "user_id", nullable = false)
     private int userId;
 
-    @Column(name = "latitude", precision = 19, scale = 2)
+    @Column(name = "latitude", precision = 19, scale = 7)
     private BigDecimal latitude;
 
-    @Column(name = "longitude", precision = 19, scale = 2)
+    @Column(name = "longitude", precision = 19, scale = 7)
     private BigDecimal longitude;
 
     @Override
@@ -50,5 +50,12 @@ public class Location {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).
                 getHibernateLazyInitializer().getPersistentClass().
                 hashCode() : getClass().hashCode();
+    }
+
+    public Location(String locationName, int userId, BigDecimal latitude, BigDecimal longitude) {
+        this.name = locationName;
+        this.userId = userId;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

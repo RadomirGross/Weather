@@ -55,8 +55,6 @@
             } else {
 
                 Session session=sessionService.saveSession(new Session(user.getId()));
-                System.out.println("========session");
-                System.out.println(session.getId().toString());
                 Cookie cookie = new Cookie("SESSION", session.getId().toString());
                 cookie.setPath("/");
                 cookie.setMaxAge(60 * 60 * 24);
