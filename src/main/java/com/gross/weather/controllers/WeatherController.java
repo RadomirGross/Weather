@@ -3,6 +3,7 @@ package com.gross.weather.controllers;
 import com.gross.weather.exceptions.InvalidSessionTokenException;
 import com.gross.weather.model.Location;
 import com.gross.weather.model.Session;
+import com.gross.weather.model.User;
 import com.gross.weather.model.WeatherResponse;
 import com.gross.weather.service.LocationService;
 import com.gross.weather.service.SessionService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,27 +38,16 @@ public class WeatherController {
 
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model) {
+    public String index(@ModelAttribute("user") User user, Model model) {
 
-        Optional<UUID> token = CookieUtils.extractUuidFromCookie(request, "SESSION");
-        if (token.isPresent()) {
-            try {
-                Session session = sessionService.findSessionById(token.get());
-                if (session != null) {
-                    model.addAttribute("user", userService.findUserById(session.getUserId()));
-                    List<Location> locations=locationService.findLocationsByUserId(session.getUserId());
-                    model.addAttribute("weatherResponses", weatherResponseService
-                            .getWeatherResponseListFromLocations(locations));
-                    model.addAttribute("locations",locations );
-                    return "index";
-                }
-            } catch (IllegalArgumentException e) {
-                throw new InvalidSessionTokenException(token.get().toString());
-            }
-        }
 
-            return "redirect:/sign-up";
-        }
+        List<Location> locations = locationService.findLocationsByUserId(user.getId());
+        model.addAttribute("weatherResponses", weatherResponseService
+                .getWeatherResponseListFromLocations(locations));
 
+        return "index";
 
     }
+
+
+}

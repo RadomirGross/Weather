@@ -41,6 +41,10 @@ public class LocationService {
         locationRepository.deleteById(locationId);
     }
 
+    public void deleteByIdAndUserId(int id, int userId) {
+        locationRepository.deleteByIdAndUserId(id, userId);
+    }
+
     public Location save(Location location) {
         Optional<Location> existing = locationRepository
                 .findLocationByUserIdAndLatitudeAndLongitude(location.getUserId(), location.getLatitude(), location.getLongitude());

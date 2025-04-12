@@ -13,4 +13,6 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
     List<Location> findByUserId(int userId);
 
     Optional<Location> findLocationByUserIdAndLatitudeAndLongitude(int userId, BigDecimal latitude, BigDecimal longitude);
+
+    long deleteByIdAndUserId(Integer id, int userId);
 }
