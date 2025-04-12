@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class DeleteLocationController {
@@ -17,10 +18,15 @@ public class DeleteLocationController {
         this.locationService = locationService;
     }
     @PostMapping("/delete")
-    public String deleteLocation(@RequestParam("locationIdFromDB")  int locationId,
-                                 @ModelAttribute("user") User user) {
+    public String deleteLocation(@RequestParam("locationIdFromDB") int locationId,
+                                 @ModelAttribute("user") User user,
+                                 RedirectAttributes redirectAttributes) {
 
-        locationService.deleteByIdAndUserId(locationId, user.getId());
+        long deleted = locationService.deleteByIdAndUserId(locationId, user.getId());
+        if (deleted == 0) {
+            redirectAttributes.addFlashAttribute("error", "Не удалось удалить локацию.");
+        }
+
         return "redirect:/";
     }
 }
