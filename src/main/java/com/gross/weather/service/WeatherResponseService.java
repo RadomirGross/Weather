@@ -25,9 +25,15 @@ public class WeatherResponseService {
 
     public WeatherResponse getWeatherResponseFromLocation(Location location) {
         String apiKey = environment.getProperty("openweathermap.api.key");
-        String url=String.format("https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s",
+        String url=String.format("https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&appid=%s",
                 location.getLatitude(), location.getLongitude(), apiKey);
-        return restTemplate.getForObject(url, WeatherResponse.class);
+        WeatherResponse weatherResponse = restTemplate.getForObject(url, WeatherResponse.class);
+        if(weatherResponse!=null) {
+            weatherResponse.setDisplayName(location.getName());
+            weatherResponse.setLocationIdFromDB(location.getId());
+        }
+
+        return weatherResponse;
     }
 
     public List<WeatherResponse> getWeatherResponseListFromLocations(List<Location> locations) {

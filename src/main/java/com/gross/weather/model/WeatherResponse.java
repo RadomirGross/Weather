@@ -11,6 +11,8 @@ import java.util.List;
 @Setter
 @ToString
 public class WeatherResponse {
+    private int locationIdFromDB;
+    private String displayName;
     private Coord coord;
     private List<Weather> weather;
     private String base;
