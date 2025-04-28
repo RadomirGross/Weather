@@ -40,7 +40,6 @@ public class WeatherController {
     @GetMapping("/")
     public String index(@ModelAttribute("user") User user, Model model) {
 
-
         List<Location> locations = locationService.findLocationsByUserId(user.getId());
         model.addAttribute("weatherResponses", weatherResponseService
                 .getWeatherResponseListFromLocations(locations));

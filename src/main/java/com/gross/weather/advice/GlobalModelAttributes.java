@@ -27,19 +27,20 @@ public class GlobalModelAttributes {
 
     @ModelAttribute("user")
     public User addUserToModel(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        String uri = request.getRequestURI();
+        if (uri.startsWith("/sign-in")) {
+            return null;
+        }
         Optional<UUID> token = CookieUtils.extractUuidFromCookie(request, "SESSION");
         if (token.isPresent()) {
-            try {
+
                 Session session = sessionService.findSessionById(token.get());
                 if (session != null) {
                     return userService.findUserById(session.getUserId());
                 }
-            } catch (Exception e) {
-                throw new UserNotAuthenticatedException("Ошибка при получении сессии пользователя", e);
-            }
+
         }
-        redirectAttributes.addFlashAttribute("error", "Необходима авторизация");
-        return null;
+        throw new UserNotAuthenticatedException("Необходима авторизация");
 
     }
 }
