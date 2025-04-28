@@ -33,9 +33,6 @@ public class AddLocationController {
         this.locationService = locationService;
     }
 
-
-
-
     @PostMapping("/add")
     public String addLocation(@RequestParam("name") String locationName, @RequestParam("lat") BigDecimal lat,
                               @RequestParam("lon") BigDecimal lon, HttpServletRequest request,

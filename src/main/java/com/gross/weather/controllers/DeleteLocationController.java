@@ -23,7 +23,8 @@ public class DeleteLocationController {
                                  RedirectAttributes redirectAttributes) {
 
         long deleted = locationService.deleteByIdAndUserId(locationId, user.getId());
-        if (deleted == 0) {
+        if (locationId == deleted) {
+            redirectAttributes.addFlashAttribute("badLocationId", locationId);
             redirectAttributes.addFlashAttribute("error", "Не удалось удалить локацию.");
         }
 
