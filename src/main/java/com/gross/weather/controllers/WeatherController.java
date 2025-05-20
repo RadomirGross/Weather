@@ -39,14 +39,13 @@ public class WeatherController {
 
     @GetMapping("/")
     public String index(@ModelAttribute("user") User user, Model model) {
+        if (user != null) {
+            List<Location> locations = locationService.findLocationsByUserId(user.getId());
 
-        List<Location> locations = locationService.findLocationsByUserId(user.getId());
-        model.addAttribute("weatherResponses", weatherResponseService
-                .getWeatherResponseListFromLocations(locations));
-
-        return "index";
+            model.addAttribute("weatherResponses", weatherResponseService
+                    .getWeatherResponseListFromLocations(locations));
+            return "index";
+        } else return "redirect:/sign-in";
 
     }
-
-
-}
+    }

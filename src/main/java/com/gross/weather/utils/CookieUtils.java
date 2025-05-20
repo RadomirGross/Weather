@@ -23,7 +23,6 @@ public class CookieUtils {
             return Optional.empty();
         }
         try {
-            System.out.println("!==!"+Optional.of(UUID.fromString(cookieOptional.get().getValue())));
             return Optional.of(UUID.fromString(cookieOptional.get().getValue()));
         } catch (IllegalArgumentException e) {
             return Optional.empty();

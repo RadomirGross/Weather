@@ -22,9 +22,13 @@ dependencies {
     implementation 'org.hibernate.orm:hibernate-core:6.5.2.Final'
     implementation 'org.postgresql:postgresql:42.7.4'
     implementation 'org.springframework:spring-orm:6.2.0'
+
     implementation 'org.thymeleaf:thymeleaf:3.1.2.RELEASE'
     implementation 'org.thymeleaf:thymeleaf-spring6:3.1.2.RELEASE'
 
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'org.springframework.security:spring-security-crypto:6.4.5'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
     implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
    // implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
@@ -34,7 +38,7 @@ dependencies {
 
 
     // Логирование
-  //  implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'ch.qos.logback:logback-classic:1.4.11'
 
     // Тестирование

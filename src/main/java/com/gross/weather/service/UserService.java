@@ -1,8 +1,9 @@
 package com.gross.weather.service;
 
+import com.gross.weather.dto.UserDto;
 import com.gross.weather.model.User;
-import com.gross.weather.repositories.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gross.weather.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,39 +12,50 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class UserService {
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Transactional
+    public void register(UserDto userDto) {
+        User user = new User();
+        user.setLogin(userDto.getLogin());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        saveUser(user);
     }
 
     public List<User> findAllUsers() {
-        return usersRepository.findAll();
+        return userRepository.findAll();
     }
 
     public User findUserById(Integer id) {
-        return usersRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     public User findUserByLogin(String login) {
-        return usersRepository.findByLogin(login);
+        return userRepository.findByLogin(login);
     }
 
     @Transactional
     public User saveUser(User user) {
-        return usersRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
-    public void updateUser(int id,User user) {
+    public void updateUser(int id, User user) {
         user.setId(id);
-        usersRepository.save(user);
+        userRepository.save(user);
     }
 
     @Transactional
     public void deleteUserById(Integer id) {
-        usersRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
 }

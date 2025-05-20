@@ -9,9 +9,7 @@ import com.gross.weather.utils.CookieUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,19 +24,17 @@ public class GlobalModelAttributes {
     }
 
     @ModelAttribute("user")
-    public User addUserToModel(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public User addUserToModel(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        if (uri.startsWith("/sign-in")) {
+        if (uri.startsWith("/sign-in")||uri.startsWith("/sign-up")) {
             return null;
         }
         Optional<UUID> token = CookieUtils.extractUuidFromCookie(request, "SESSION");
         if (token.isPresent()) {
-
                 Session session = sessionService.findSessionById(token.get());
                 if (session != null) {
                     return userService.findUserById(session.getUserId());
                 }
-
         }
         throw new UserNotAuthenticatedException("Необходима авторизация");
 

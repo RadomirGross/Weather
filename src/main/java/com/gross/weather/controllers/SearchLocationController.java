@@ -24,7 +24,11 @@ public class SearchLocationController {
     }
 
     @GetMapping("/search")
-    public String searchLocation(@RequestParam(name = "locationName") String locationName, Model model) {
+    public String searchLocation(@RequestParam(name = "locationName",required = false) String locationName, Model model) {
+        if(locationName == null || locationName.isEmpty()) {
+            return "redirect:/";
+        }
+
         List<LocationResponse> locationResponses = locationResponseService.getLocationResponse(locationName);
         model.addAttribute("locationResponses", locationResponses);
         model.addAttribute("locationName", locationName);
