@@ -1,5 +1,6 @@
 package com.gross.weather.controllers;
 
+import com.gross.weather.dto.SearchDto;
 import com.gross.weather.exceptions.InvalidSessionTokenException;
 import com.gross.weather.model.Location;
 import com.gross.weather.model.Session;
@@ -39,8 +40,13 @@ public class WeatherController {
 
     @GetMapping("/")
     public String index(@ModelAttribute("user") User user, Model model) {
+
         if (user != null) {
             List<Location> locations = locationService.findLocationsByUserId(user.getId());
+
+            if (!model.containsAttribute("searchDto")) {
+                model.addAttribute("searchDto", new SearchDto());
+            }
 
             model.addAttribute("weatherResponses", weatherResponseService
                     .getWeatherResponseListFromLocations(locations));

@@ -31,7 +31,7 @@ public class AddLocationController {
 
     @PostMapping("/add")
     public String addLocation(@ModelAttribute("user") User user, @RequestParam("name") String locationName, @RequestParam("lat") BigDecimal lat,
-                              @RequestParam("lon") BigDecimal lon,
+                              @RequestParam("lon") BigDecimal lon,@RequestParam("search")String search,
                               RedirectAttributes redirectAttributes) {
 
         try {
@@ -44,7 +44,7 @@ public class AddLocationController {
             redirectAttributes.addFlashAttribute("errorLocationLat", lat.toString());
             redirectAttributes.addFlashAttribute("errorLocationLon", lon.toString());
 
-            return "redirect:/search?locationName=" + URLEncoder.encode(locationName, StandardCharsets.UTF_8);
+            return "redirect:/search?search=" + URLEncoder.encode(search, StandardCharsets.UTF_8);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Invalid session");
             return "redirect:/sign-in";

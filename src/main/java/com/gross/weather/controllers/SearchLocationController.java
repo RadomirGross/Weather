@@ -1,15 +1,16 @@
 package com.gross.weather.controllers;
 
+import com.gross.weather.dto.SearchDto;
 import com.gross.weather.model.LocationResponse;
 import com.gross.weather.service.LocationResponseService;
+import jakarta.validation.Valid;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +25,27 @@ public class SearchLocationController {
     }
 
     @GetMapping("/search")
-    public String searchLocation(@RequestParam(name = "locationName",required = false) String locationName, Model model) {
-        if(locationName == null || locationName.isEmpty()) {
-            return "redirect:/";
+    public String searchLocation(@Valid SearchDto searchDto,
+                                 BindingResult bindingResult,
+                                 Model model,
+                                 RedirectAttributes redirectAttributes,
+                                 @RequestHeader(value = "referer", required = false)String referer) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(referer);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.searchDto", bindingResult);
+            redirectAttributes.addFlashAttribute("searchDto", searchDto);
+            String redirectUrl = (referer != null && !referer.isEmpty()) ? referer : "/";
+            return "redirect:" + redirectUrl;
         }
 
-        List<LocationResponse> locationResponses = locationResponseService.getLocationResponse(locationName);
+
+        List<LocationResponse> locationResponses = locationResponseService.getLocationResponse(searchDto.getSearch());
         model.addAttribute("locationResponses", locationResponses);
-        model.addAttribute("locationName", locationName);
+        model.addAttribute("search", searchDto.getSearch());
+        model.addAttribute("searchDto", searchDto);
         return "search-results";
+
+
     }
 
 }

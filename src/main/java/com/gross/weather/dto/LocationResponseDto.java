@@ -1,7 +1,6 @@
 package com.gross.weather.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,7 +12,7 @@ import java.util.Map;
 @Setter
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LocationResponseDTO {
+public class LocationResponseDto {
 
     private String name;
     private Map<String, String> localNames;
