@@ -35,7 +35,7 @@ public class RegistrationController {
 
     @PostMapping("/sign-up3")
     public String signUp3(@RequestParam("username") String username, @RequestParam("password") String password,
-                         @RequestParam("repeat-password") String repeatPassword, Model model) {
+                          @RequestParam("repeat-password") String repeatPassword, Model model) {
 
         List<String> errors = new ArrayList<>();
         if (userService.findUserByLogin(username) != null) {
@@ -68,10 +68,10 @@ public class RegistrationController {
             , BindingResult bindingResult) {
         // Проверка совпадения паролей
 
-            if (userDto.getPassword() != null && !userDto.getPassword().isEmpty())
-                if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
-                    bindingResult.rejectValue("repeatPassword", "", "Пароли не совпадают");
-                }
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty())
+            if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
+                bindingResult.rejectValue("repeatPassword", "", "Пароли не совпадают");
+            }
 
         // Проверка на существующий логин (пример)
         if (userService.findUserByLogin(userDto.getLogin()) != null) {

@@ -29,15 +29,18 @@ public class SearchLocationController {
                                  BindingResult bindingResult,
                                  Model model,
                                  RedirectAttributes redirectAttributes,
-                                 @RequestHeader(value = "referer", required = false)String referer) {
-        if (bindingResult.hasErrors()) {
-            System.out.println(referer);
+                                 @RequestParam(value = "originPage", required = false)String originPage) {
+
+        if (bindingResult.hasErrors() && originPage != null) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.searchDto", bindingResult);
             redirectAttributes.addFlashAttribute("searchDto", searchDto);
-            String redirectUrl = (referer != null && !referer.isEmpty()) ? referer : "/";
-            return "redirect:" + redirectUrl;
+            return "redirect:/";
         }
 
+        System.out.println("searchDto: " + searchDto.getSearch());
+        if(bindingResult.hasErrors()) {
+            return "search-results";
+        }
 
         List<LocationResponse> locationResponses = locationResponseService.getLocationResponse(searchDto.getSearch());
         model.addAttribute("locationResponses", locationResponses);

@@ -1,25 +1,16 @@
 package com.gross.weather.controllers;
 
 import com.gross.weather.exceptions.LocationAlreadyExistsException;
-import com.gross.weather.exceptions.UserNotAuthenticatedException;
 import com.gross.weather.model.Location;
-import com.gross.weather.model.Session;
 import com.gross.weather.model.User;
 import com.gross.weather.service.LocationService;
-import com.gross.weather.service.SessionService;
-import com.gross.weather.utils.CookieUtils;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 public class AddLocationController {
