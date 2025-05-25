@@ -22,12 +22,11 @@ public class UserService {
     }
 
     @Transactional
-    public void register(UserDto userDto) {
+    public User register(UserDto userDto) {
         User user = new User();
         user.setLogin(userDto.getLogin());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        saveUser(user);
+        return saveUser(user);
     }
 
     public List<User> findAllUsers() {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,7 @@ public class RegistrationController {
 
     @GetMapping("/sign-up")
     public String signUp(Model model) {
-
         model.addAttribute("userDto", new UserDto());
-        System.out.println("Sign up!!!!!!!!!!!!!!!!");
         return "sign-up";
     }
 
@@ -65,15 +64,13 @@ public class RegistrationController {
 
     @PostMapping("/sign-up")
     public String signUp(@ModelAttribute("userDto") @Valid UserDto userDto
-            , BindingResult bindingResult) {
-        // Проверка совпадения паролей
+            , BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 
         if (userDto.getPassword() != null && !userDto.getPassword().isEmpty())
             if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
                 bindingResult.rejectValue("repeatPassword", "", "Пароли не совпадают");
             }
 
-        // Проверка на существующий логин (пример)
         if (userService.findUserByLogin(userDto.getLogin()) != null) {
             bindingResult.rejectValue("login", "", "Такой логин уже существует");
         }
@@ -83,7 +80,10 @@ public class RegistrationController {
         }
 
         // Преобразовать DTO в User
-        userService.register(userDto);
+        User user=userService.register(userDto);
+        if (user!=null)
+            redirectAttributes.addFlashAttribute("successful",
+                    "Регистрация успешна. Произведите авторизацию.");
 
         return "redirect:/sign-in";
 

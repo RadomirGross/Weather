@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 @Transactional(readOnly = true)
 public class SessionService {
-
+    private  final int SESSION_DURATION_HOURS = 1;
     private final SessionRepository sessionRepository;
 
 
@@ -32,7 +32,7 @@ public class SessionService {
 
     @Transactional
     public Session saveSession(Session session) {
-        session.setExpiresAt(LocalDateTime.now().plusHours(1));
+        session.setExpiresAt(LocalDateTime.now().plusHours(SESSION_DURATION_HOURS));
         return sessionRepository.save(session);
     }
     @Transactional
@@ -50,4 +50,5 @@ public class SessionService {
         return sessionRepository.deleteByUserId(userId);
     }
 
+    public void deleteExpiredSessions() {}
 }
