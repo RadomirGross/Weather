@@ -7,8 +7,9 @@ import lombok.ToString;
 
 import java.util.List;
 
-@Getter
+
 @Setter
+@Getter
 @ToString
 public class WeatherResponse {
     private int locationIdFromDB;
@@ -45,7 +46,7 @@ public class WeatherResponse {
 
     @Getter
     @Setter
-    public static class Main {
+    public class Main {
         private double temp;
 
         @JsonProperty("feels_like")
@@ -65,28 +66,32 @@ public class WeatherResponse {
 
         @JsonProperty("grnd_level")
         private int grndLevel;
+
+
     }
 
-    @Getter
-    @Setter
-    public static class Wind {
-        private double speed;
-        private int deg;
-    }
 
-    @Getter
-    @Setter
-    public static class Clouds {
-        private int all;
-    }
+@Getter
+@Setter
+public static class Wind {
+    private double speed;
+    private int deg;
+}
 
-    @Getter
-    @Setter
-    public static class Sys {
-        private int type;
-        private int id;
-        private String country;
-        private long sunrise;
-        private long sunset;
-    }
+@Getter
+@Setter
+public static class Clouds {
+    private int all;
+}
+
+@Getter
+@Setter
+public static class Sys {
+    private int type;
+    private int id;
+    private String country;
+    private long sunrise;
+    private long sunset;
+}
+
 }

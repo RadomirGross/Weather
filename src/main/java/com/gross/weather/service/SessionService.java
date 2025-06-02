@@ -2,6 +2,7 @@ package com.gross.weather.service;
 
 import com.gross.weather.model.Session;
 import com.gross.weather.repositories.SessionRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,8 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class SessionService {
     private  final int SESSION_DURATION_HOURS = 1;
+    private  final int SESSION_DURATION_MINUTES = 10;
+    private static final long ONE_HOUR_IN_MILLISECONDS = 60 * 60 * 1000;
     private final SessionRepository sessionRepository;
 
 
@@ -50,5 +53,8 @@ public class SessionService {
         return sessionRepository.deleteByUserId(userId);
     }
 
-    public void deleteExpiredSessions() {}
+    @Scheduled(fixedRate = ONE_HOUR_IN_MILLISECONDS)
+    public void deleteExpiredSessions() {
+        sessionRepository.deleteAllByExpiresAtBefore(LocalDateTime.now());
+    }
 }
