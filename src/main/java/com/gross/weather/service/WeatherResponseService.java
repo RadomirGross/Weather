@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +34,28 @@ public class WeatherResponseService {
             throw new IllegalStateException("API ключ OpenWeatherMap не найден в настройках.");
         }
 
-        String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&appid=%s",
-                location.getLatitude(), location.getLongitude(), apiKey);
-        WeatherResponse weatherResponse = restTemplate.getForObject(url, WeatherResponse.class);
+        String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&appid=%s", location.getLatitude(), location.getLongitude(), apiKey);
 
-        if (weatherResponse != null) {
-            weatherResponse.setDisplayName(location.getName());
-            weatherResponse.setLocationIdFromDB(location.getId());
+        try {
+            WeatherResponse weatherResponse = restTemplate.getForObject(url, WeatherResponse.class);
+
+            if (weatherResponse != null) {
+                weatherResponse.setDisplayName(location.getName());
+                weatherResponse.setLocationIdFromDB(location.getId());
+                return mapper.toWeatherResponseDto(weatherResponse);
+
+            } else {
+                return buildErrorWeatherDto(location, "Пустой ответ от OpenWeatherMap.");
+            }
+        } catch (HttpClientErrorException e) {
+            return buildErrorWeatherDto(location, "Ошибка клиента: " + e.getStatusCode());
+        } catch (HttpServerErrorException e) {
+            return buildErrorWeatherDto(location, "Ошибка сервера OpenWeatherMap: " + e.getStatusCode() + ". Попробуйте позже.");
+        } catch (ResourceAccessException e) {
+            return buildErrorWeatherDto(location, "Не удалось подключиться к серверу. Проверьте интернет-соединение.");
+        } catch (Exception e) {
+            return buildErrorWeatherDto(location, "Неизвестная ошибка при получении погоды.");
         }
-
-        return mapper.toWeatherResponseDto(weatherResponse);
     }
 
     public List<WeatherResponseDto> getWeatherResponseListFromLocations(List<Location> locations) {
@@ -54,5 +66,12 @@ public class WeatherResponseService {
             }
         }
         return weatherResponseDtoList;
+    }
+
+    public WeatherResponseDto buildErrorWeatherDto(Location location, String error) {
+        WeatherResponseDto dto = new WeatherResponseDto();
+        dto.setDisplayName(location.getName());
+        dto.setError(error);
+        return dto;
     }
 }

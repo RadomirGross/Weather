@@ -1,5 +1,7 @@
 package com.gross.weather.controllers;
 
+import com.gross.weather.dto.LocationResponseDto;
+import com.gross.weather.dto.LocationSearchResult;
 import com.gross.weather.dto.SearchDto;
 import com.gross.weather.model.LocationResponse;
 import com.gross.weather.service.LocationResponseService;
@@ -37,13 +39,13 @@ public class SearchLocationController {
             return "redirect:/";
         }
 
-        System.out.println("searchDto: " + searchDto.getSearch());
         if(bindingResult.hasErrors()) {
             return "search-results";
         }
-
-        List<LocationResponse> locationResponses = locationResponseService.getLocationResponse(searchDto.getSearch());
-        model.addAttribute("locationResponses", locationResponses);
+        LocationSearchResult locationSearchResult =  locationResponseService.getLocationResponseDto(searchDto.getSearch());
+        model.addAttribute("locationResponsesError", locationSearchResult.getErrorMessage());
+        model.addAttribute("locationResponses", locationSearchResult.getLocations());
+        System.out.println(locationSearchResult.getLocations());
         model.addAttribute("search", searchDto.getSearch());
         model.addAttribute("searchDto", searchDto);
         return "search-results";

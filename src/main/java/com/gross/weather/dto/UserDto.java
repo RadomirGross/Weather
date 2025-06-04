@@ -3,11 +3,16 @@ package com.gross.weather.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
 
 
 
+@Setter
+@Getter
 public class UserDto implements Serializable {
 
     public UserDto(String login, String password, String repeatPassword) {
@@ -32,27 +37,4 @@ public class UserDto implements Serializable {
     @Size(min = 5, max = 60, message = "Пароль должен быть не менее 5 символов")
     private String repeatPassword;
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

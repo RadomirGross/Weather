@@ -49,14 +49,8 @@ public class LocationService {
     public Location save(Location location) {
         Optional<Location> existing = locationRepository
                 .findLocationByUserIdAndLatitudeAndLongitude(location.getUserId(), location.getLatitude(), location.getLongitude());
-        System.out.println("location id " + "------------------------------------------------");
-        System.out.println("Latitude"+location.getLatitude());
-        System.out.println("Longitude"+location.getLongitude());
-        System.out.println("Latitude"+location.getLatitude().toString());
-        System.out.println("Longitude"+location.getLongitude().toString());
 
         if (existing.isPresent()) {
-            System.out.println("location id " + "----=======================-------------------------");
             throw new LocationAlreadyExistsException("Такая локация уже существует у этого пользователя.");
         }
 

@@ -18,5 +18,6 @@ public class WeatherResponseDto {
     private double temperature;
     private double feelsLike;
     private int humidity;
+    private String error;
 
 }

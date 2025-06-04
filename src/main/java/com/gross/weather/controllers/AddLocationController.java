@@ -30,15 +30,14 @@ public class AddLocationController {
             locationService.save(location);
             return "redirect:/";
         } catch (LocationAlreadyExistsException e) {
-            System.out.println("Location already exists");
             redirectAttributes.addFlashAttribute("error", "Этот город уже есть на главной странице");
             redirectAttributes.addFlashAttribute("errorLocationLat", lat.toString());
             redirectAttributes.addFlashAttribute("errorLocationLon", lon.toString());
 
             return "redirect:/search?search=" + URLEncoder.encode(search, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Invalid session");
-            return "redirect:/sign-in";
+            redirectAttributes.addFlashAttribute("error", "Ошибка при добавлении города");
+            return "redirect:/";
         }
     }
 

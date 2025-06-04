@@ -15,7 +15,7 @@ public class LiquibaseConfig {
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog("classpath:db/changelog/db.changelog-master.xml");
         liquibase.setDropFirst(false);
-        liquibase.setShouldRun(false); // Можно включить, если нужно
+        liquibase.setShouldRun(false);
         return liquibase;
     }
 }

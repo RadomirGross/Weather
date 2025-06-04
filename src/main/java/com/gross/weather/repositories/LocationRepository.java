@@ -2,7 +2,10 @@ package com.gross.weather.repositories;
 
 import com.gross.weather.model.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,5 +19,10 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
 
     long deleteByIdAndUserId(Integer id, int userId);
 
+    long deleteByUserIdAndLatitude(int userId, BigDecimal latitude);
 
+    @Transactional
+    @Modifying
+    @Query("delete from Location l where l.id = ?1 and l.userId = ?2 and l.latitude = ?3 and l.longitude = ?4")
+    int deleteByIdAndUserIdAndLatitudeAndLongitude(Integer id, int userId, BigDecimal latitude, BigDecimal longitude);
 }

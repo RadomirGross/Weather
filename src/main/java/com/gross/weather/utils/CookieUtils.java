@@ -2,6 +2,7 @@ package com.gross.weather.utils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.util.WebUtils;
 
 import java.util.Optional;
@@ -12,7 +13,7 @@ public class CookieUtils {
         Cookie cookie = WebUtils.getCookie(request, cookieName);
         if (cookie == null) {
             return Optional.empty();
-        }else  {
+        } else {
             return Optional.of(cookie);
         }
     }
@@ -22,11 +23,18 @@ public class CookieUtils {
         if (cookieOptional.isEmpty()) {
             return Optional.empty();
         }
+
         try {
             return Optional.of(UUID.fromString(cookieOptional.get().getValue()));
         } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
 
+    }
+
+    public static void clearCookie(Cookie cookie, HttpServletResponse response) {
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 }

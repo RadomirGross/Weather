@@ -1,7 +1,9 @@
 package com.gross.weather.config;
 
 import com.gross.weather.config.WebConfig;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

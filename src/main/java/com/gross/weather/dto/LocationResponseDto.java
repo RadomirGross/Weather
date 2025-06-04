@@ -11,13 +11,11 @@ import java.util.Map;
 @Getter
 @Setter
 @ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class LocationResponseDto {
 
     private String name;
-    private Map<String, String> localNames;
-    private double lat;
-    private double lon;
+    private String lat;
+    private String lon;
     private String country;
     private String state;
 

@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,6 +17,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
+@Profile("dev")
 @ComponentScan("com.gross.weather")
 @Configuration
 @EnableWebMvc
@@ -28,18 +30,21 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Autowired
-    private AuthInterceptor authInterceptor;
+    private SessionService sessionService;
+
+    @Autowired
+    private UserService userService;
 
     @Bean
-    public AuthInterceptor authInterceptor(SessionService sessionService, UserService userService) {
+    public AuthInterceptor authInterceptor() {
         return new AuthInterceptor(sessionService, userService);
     }
 
     @Override
-
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor)
-                .excludePathPatterns("/resources/**","/error");
+        registry.addInterceptor(authInterceptor())
+                .excludePathPatterns("/resources/**","/error")
+                .excludePathPatterns("/sign-in", "/sign-up");
     }
 
     @Override
