@@ -1,7 +1,7 @@
 package com.gross.weather.service;
 
 
-import com.gross.weather.config.TestJpaConfig;
+import com.gross.weather.config.TestConfig;
 import com.gross.weather.dto.UserDto;
 import com.gross.weather.model.User;
 import com.gross.weather.repositories.UserRepository;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestJpaConfig.class}) // это твой test config
+@ContextConfiguration(classes = {TestConfig.class}) // это твой test config
 @Transactional
 @Rollback
 public class UserServiceTest {
@@ -31,10 +31,10 @@ public class UserServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-
-
     @PersistenceContext
     private EntityManager em;
+
+
 
     @Test
     public void testRegisterUser_persistsToDatabase() {

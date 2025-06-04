@@ -21,7 +21,7 @@ import java.util.Properties;
 
 
 @Configuration
-@PropertySource("classpath:hibernate.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @EnableJpaRepositories("com.gross.weather.repositories")
 public class JpaConfig {
