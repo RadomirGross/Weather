@@ -47,7 +47,7 @@ public class LocationResponseService {
             LocationResponse[] locationResponse = restTemplate.getForObject(url, LocationResponse[].class);
 
             if (locationResponse == null || locationResponse.length == 0) {
-                locationSearchResult.setErrorMessage("  Для этого запроса не найдено локаций.");
+                locationSearchResult.setErrorMessage("Для этого запроса не найдено локаций.");
                 return locationSearchResult;
             } else locationSearchResult.setLocations(mapper.toLocationResponseDtoList(
                     Arrays.stream(locationResponse).toList()));

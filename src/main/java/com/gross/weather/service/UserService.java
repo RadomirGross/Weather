@@ -22,12 +22,15 @@ public class UserService {
 
     @Transactional
     public User register(UserDto userDto) {
+        if (userRepository.findByLogin(userDto.getLogin()) != null) {
+            throw new IllegalArgumentException("Login already exists: "+userDto.getLogin());
+        }
+
         User user = new User();
         user.setLogin(userDto.getLogin());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         return saveUser(user);
     }
-
 
     public User findUserById(Integer id) {
         return userRepository.findById(id).orElse(null);

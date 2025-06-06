@@ -13,6 +13,7 @@ import java.util.Map;
 @Setter
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
+
 public class LocationResponse {
 
     private String name;
@@ -22,4 +23,10 @@ public class LocationResponse {
     private String country;
     private String state;
 
+
+    public LocationResponse(String name,String country, String lat, String lon) {
+        this.name = name;
+        this.lat = lat;
+        this.lon = lon;
+    }
 }

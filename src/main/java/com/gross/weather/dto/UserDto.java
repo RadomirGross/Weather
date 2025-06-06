@@ -22,7 +22,6 @@ public class UserDto implements Serializable {
     }
 
     public UserDto() {
-        System.out.println("UserDto simple constructor");
     }
 
     @NotBlank(message = "Логин  не может быть пустым")

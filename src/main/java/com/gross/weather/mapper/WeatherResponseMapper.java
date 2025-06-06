@@ -19,6 +19,7 @@ public interface WeatherResponseMapper {
     @Mapping(target = "temperature", expression = "java(Math.round(weatherResponse.getMain().getTemp()))")
     @Mapping(target = "feelsLike", expression = "java(Math.round(weatherResponse.getMain().getFeelsLike()))")
     @Mapping(target = "humidity", expression = "java(weatherResponse.getMain().getHumidity())")
+    @Mapping(target = "error", ignore = true)
     WeatherResponseDto toWeatherResponseDto(WeatherResponse weatherResponse);
 
 }

@@ -14,30 +14,30 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-    public class AuthInterceptor implements HandlerInterceptor {
+public class AuthInterceptor implements HandlerInterceptor {
 
-        private final SessionService sessionService;
-        private final UserService userService;
+    private final SessionService sessionService;
+    private final UserService userService;
 
-        public AuthInterceptor(SessionService sessionService, UserService userService) {
-            this.sessionService = sessionService;
-            this.userService = userService;
+    public AuthInterceptor(SessionService sessionService, UserService userService) {
+        this.sessionService = sessionService;
+        this.userService = userService;
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String uri = request.getRequestURI();
+        System.out.println("URI: " + request.getRequestURI());
+        if (uri.startsWith("/sign-in") || uri.startsWith("/sign-up") || uri.startsWith("/error")) {
+            return true;
         }
 
-        @Override
-        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-            String uri = request.getRequestURI();
-            System.out.println("URI: " + request.getRequestURI());
-            if (uri.startsWith("/sign-in") || uri.startsWith("/sign-up")|| uri.startsWith("/error")) {
-                return true;
-            }
-
-            Optional<UUID> token = CookieUtils.extractUuidFromCookie(request, "SESSION");
-            if (token.isEmpty()) {
-                request.getSession().setAttribute("error", "Необходима авторизация");
-                response.sendRedirect("/sign-in");
-                return false;
-            }
+        Optional<UUID> token = CookieUtils.extractUuidFromCookie(request, "SESSION");
+        if (token.isEmpty()) {
+            request.getSession().setAttribute("error", "Необходима авторизация");
+            response.sendRedirect("/sign-in");
+            return false;
+        }
 
         Session session = sessionService.findSessionById(token.get());
         if (session == null) {

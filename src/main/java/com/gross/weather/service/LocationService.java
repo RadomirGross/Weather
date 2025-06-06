@@ -23,22 +23,9 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
-    public List<Location> findAll() {
-        return locationRepository.findAll();
-    }
-
-    public Location findById(int id) {
-        return locationRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Локация с id " + id + " не найдена"));
-    }
 
     public List<Location> findLocationsByUserId(int userId) {
         return locationRepository.findByUserId(userId);
-    }
-
-
-    public void delete(int locationId) {
-        locationRepository.deleteById(locationId);
     }
 
     public long deleteByIdAndUserId(int id, int userId) {
