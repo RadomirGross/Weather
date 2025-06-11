@@ -16,11 +16,13 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestConfig.class)
+@WebAppConfiguration
 class AuthInterceptorTest {
 
     @Autowired
@@ -32,13 +34,10 @@ class AuthInterceptorTest {
 
     @Test
     void preHandle_validSession_allowsRequest() throws Exception {
-        // 1. регистрируем пользователя
         User u = userService.register(new UserDto("test", "testpass", "testpass"));
 
-        // 2. создаём сессию
         Session s = sessionService.saveSession(new Session(u.getId()));
 
-        // 3. готовим mock‑request c cookie
         MockHttpServletRequest req  = new MockHttpServletRequest("GET", "/");
         req.setCookies(new Cookie("SESSION", s.getId().toString()));
         MockHttpServletResponse res = new MockHttpServletResponse();

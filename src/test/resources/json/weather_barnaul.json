@@ -1,0 +1,45 @@
+{
+  "coord": {
+    "lon": 83.7784,
+    "lat": 53.3474
+  },
+  "weather": [
+    {
+      "id": 801,
+      "main": "Clouds",
+      "description": "few clouds",
+      "icon": "02d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 22.42,
+    "feels_like": 22,
+    "temp_min": 22.42,
+    "temp_max": 22.42,
+    "pressure": 1017,
+    "humidity": 49,
+    "sea_level": 1017,
+    "grnd_level": 995
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 2,
+    "deg": 340
+  },
+  "clouds": {
+    "all": 20
+  },
+  "dt": 1749564769,
+  "sys": {
+    "type": 1,
+    "id": 8945,
+    "country": "RU",
+    "sunrise": 1749506267,
+    "sunset": 1749567063
+  },
+  "timezone": 25200,
+  "id": 1510853,
+  "name": "Barnaul",
+  "cod": 200
+}

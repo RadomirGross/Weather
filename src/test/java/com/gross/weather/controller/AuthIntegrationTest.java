@@ -44,7 +44,6 @@ public class AuthIntegrationTest {
 
     @Test
     void signIn_shouldCreateSessionAndSetCookie() throws Exception {
-        // Arrange
         String login = "testlogin";
         String password = "testpassword";
 
@@ -53,7 +52,6 @@ public class AuthIntegrationTest {
         userDto.setPassword(password);
         userService.register(userDto);
         System.out.println("============"+userService.findUserByLogin(login));
-        // Act & Assert
         mockMvc.perform(post("/sign-in")
                         .param("login", login)
                         .param("password", password))
@@ -65,22 +63,19 @@ public class AuthIntegrationTest {
 
     @Test
     void signIn_shouldReturnSignInView_whenValidationFails() throws Exception {
-        // Arrange
         String login = "nonexistentuser";
         String password = "wrongpassword";
 
-        // Act & Assert
         mockMvc.perform(post("/sign-in")
                         .param("login", login)
                         .param("password", password))
-                .andExpect(status().isOk()) // Страница возвращается с кодом 200
-                .andExpect(view().name("sign-in")) // Возвращается именно view "sign-in"
-                .andExpect(model().attributeHasFieldErrors("loginDto", "login")); // Ошибка в поле login
+                .andExpect(status().isOk())
+                .andExpect(view().name("sign-in"))
+                .andExpect(model().attributeHasFieldErrors("loginDto", "login"));
     }
 
     @Test
     void signIn_shouldReturnSignInView_whenPasswordIsIncorrect() throws Exception {
-        // Arrange
         String login = "user1";
         String correctPassword = "correctPassword";
         String wrongPassword = "wrongPassword";
@@ -90,7 +85,6 @@ public class AuthIntegrationTest {
         userDto.setPassword(correctPassword);
         userService.register(userDto);
 
-        // Act & Assert
         mockMvc.perform(post("/sign-in")
                         .param("login", login)
                         .param("password", wrongPassword))

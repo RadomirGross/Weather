@@ -16,8 +16,8 @@ public interface WeatherResponseMapper {
     @Mapping(source = "displayName", target = "displayName")
     @Mapping(target = "description", expression = "java(weatherResponse.getWeather() != null && !weatherResponse.getWeather().isEmpty() ? weatherResponse.getWeather().get(0).getDescription() : \"\")")
     @Mapping(target = "icon", expression = "java(weatherResponse.getWeather() != null && !weatherResponse.getWeather().isEmpty() ? weatherResponse.getWeather().get(0).getIcon() : \"\")")
-    @Mapping(target = "temperature", expression = "java(Math.round(weatherResponse.getMain().getTemp()))")
-    @Mapping(target = "feelsLike", expression = "java(Math.round(weatherResponse.getMain().getFeelsLike()))")
+    @Mapping(target = "temperature", expression = "java(weatherResponse.getMain().getTemp())")
+    @Mapping(target = "feelsLike", expression = "java(weatherResponse.getMain().getFeelsLike())")
     @Mapping(target = "humidity", expression = "java(weatherResponse.getMain().getHumidity())")
     @Mapping(target = "error", ignore = true)
     WeatherResponseDto toWeatherResponseDto(WeatherResponse weatherResponse);

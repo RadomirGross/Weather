@@ -21,7 +21,7 @@ public class WeatherResponseService {
     private final WeatherResponseMapper mapper;
 
     @Autowired
-    public WeatherResponseService(RestTemplate restTemplate, Environment environment, WeatherResponseMapper mapper) {
+    public WeatherResponseService(RestTemplate restTemplate, Environment environment) {
         this.restTemplate = restTemplate;
         this.environment = environment;
         this.mapper = WeatherResponseMapper.INSTANCE;
@@ -39,7 +39,7 @@ public class WeatherResponseService {
         try {
             WeatherResponse weatherResponse = restTemplate.getForObject(url, WeatherResponse.class);
 
-            if (weatherResponse != null) {
+            if (weatherResponse.getMain() != null || weatherResponse.getWeather() != null) {
                 weatherResponse.setDisplayName(location.getName());
                 weatherResponse.setLocationIdFromDB(location.getId());
                 return mapper.toWeatherResponseDto(weatherResponse);
@@ -54,6 +54,7 @@ public class WeatherResponseService {
         } catch (ResourceAccessException e) {
             return buildErrorWeatherDto(location, "Не удалось подключиться к серверу. Проверьте интернет-соединение.");
         } catch (Exception e) {
+            e.printStackTrace();
             return buildErrorWeatherDto(location, "Неизвестная ошибка при получении погоды.");
         }
     }

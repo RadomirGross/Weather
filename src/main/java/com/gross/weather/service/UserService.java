@@ -1,6 +1,7 @@
 package com.gross.weather.service;
 
 import com.gross.weather.dto.UserDto;
+import com.gross.weather.exceptions.LoginAlreadyExistsException;
 import com.gross.weather.model.User;
 import com.gross.weather.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +24,7 @@ public class UserService {
     @Transactional
     public User register(UserDto userDto) {
         if (userRepository.findByLogin(userDto.getLogin()) != null) {
-            throw new IllegalArgumentException("Login already exists: "+userDto.getLogin());
+            throw new LoginAlreadyExistsException(userDto.getLogin());
         }
 
         User user = new User();

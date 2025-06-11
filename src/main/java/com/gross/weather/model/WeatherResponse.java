@@ -46,7 +46,7 @@ public class WeatherResponse {
 
     @Getter
     @Setter
-    public class Main {
+    public static class Main {
         private double temp;
 
         @JsonProperty("feels_like")
@@ -93,5 +93,6 @@ public static class Sys {
     private long sunrise;
     private long sunset;
 }
+
 
 }

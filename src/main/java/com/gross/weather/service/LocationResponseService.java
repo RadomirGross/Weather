@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @PropertySource("classpath:application.properties")
 @Service
@@ -47,6 +49,7 @@ public class LocationResponseService {
             LocationResponse[] locationResponse = restTemplate.getForObject(url, LocationResponse[].class);
 
             if (locationResponse == null || locationResponse.length == 0) {
+                locationSearchResult.setLocations(Collections.emptyList());
                 locationSearchResult.setErrorMessage("Для этого запроса не найдено локаций.");
                 return locationSearchResult;
             } else locationSearchResult.setLocations(mapper.toLocationResponseDtoList(
@@ -62,10 +65,11 @@ public class LocationResponseService {
             logger.warn("Ошибка сервера OpenWeatherMap: {} - {}", e.getStatusCode(), e.getResponseBodyAsString());
             return locationSearchResult;
         } catch (ResourceAccessException e) {
-            locationSearchResult.setErrorMessage("Не удалось подключиться к серверу OpenWeatherMap: " + e.getMessage());
-            logger.warn("Не удалось подключиться к серверу OpenWeatherMap: {}", e.getMessage());
+            locationSearchResult.setErrorMessage("Не удалось подключиться к серверу. Проверьте интернет-соединение: " + e.getMessage());
+            logger.warn("Не удалось подключиться к серверу. Проверьте интернет-соединение: {}", e.getMessage());
             return locationSearchResult;
         } catch (Exception e) {
+            e.printStackTrace();
             locationSearchResult.setErrorMessage("Неизвестная ошибка при запросе локаций: " + e.getMessage());
             logger.error("Неизвестная ошибка при запросе локаций: ", e);
             return locationSearchResult;

@@ -1,7 +1,5 @@
 package com.gross.weather.config;
 
-import com.gross.weather.service.LocationResponseService;
-import com.gross.weather.service.WeatherResponseService;
 import com.gross.weather.testcontainer.PostgresContainerHolder;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.*;
@@ -24,12 +22,8 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(
         basePackages = {
-                "com.gross.weather.repositories",
-                "com.gross.weather.service",
-                "com.gross.weather.controllers",
-                "com.gross.weather.mapper"
+                "com.gross.weather  "
         }
-
 )
 @EnableJpaRepositories(basePackages = "com.gross.weather.repositories")
 public class TestConfig {

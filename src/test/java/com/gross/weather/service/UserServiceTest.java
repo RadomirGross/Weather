@@ -1,6 +1,7 @@
 package com.gross.weather.service;
 
 import com.gross.weather.config.TestConfig;
+import com.gross.weather.exceptions.LoginAlreadyExistsException;
 import com.gross.weather.testcontainer.PostgresContainerHolder;
 import com.gross.weather.dto.UserDto;
 import com.gross.weather.model.User;
@@ -16,16 +17,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestConfig.class})
 @Transactional
 @Rollback
+@WebAppConfiguration
 public class UserServiceTest {
 
     @DynamicPropertySource
@@ -45,17 +48,30 @@ public class UserServiceTest {
     private EntityManager em;
 
     @Test
-    public void testRegisterUser_persistsToDatabase() throws InterruptedException {
+    public void testRegisterUser_persistsToDatabase() {
         UserDto userDto = new UserDto();
         userDto.setLogin("testUser");
         userDto.setPassword("testPassword");
 
         userService.register(userDto);
-
         em.flush();
+
         User fromDb = userRepository.findByLogin("testUser");
         assertThat(fromDb).isNotNull();
         assertThat(fromDb.getLogin()).isEqualTo("testUser");
+    }
+
+    @Test
+    public void testRegisterUser_LoginAlreadyExistsException() {
+        UserDto userDto = new UserDto();
+        userDto.setLogin("testUser");
+        userDto.setPassword("testPassword");
+
+        userService.register(userDto);
+        em.flush();
+
+        assertThrows(LoginAlreadyExistsException.class, ()
+                -> userService.register(userDto));
     }
 
 
