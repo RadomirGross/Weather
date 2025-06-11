@@ -23,9 +23,6 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    public List<Session> findAll() {
-        return sessionRepository.findAll();
-    }
 
     public Session findSessionById(UUID sessionId) {
         return sessionRepository.findById(sessionId)
@@ -36,10 +33,6 @@ public class SessionService {
     @Transactional
     public Session saveSession(Session session) {
         session.setExpiresAt(LocalDateTime.now().plusHours(SESSION_DURATION_HOURS));
-        return sessionRepository.save(session);
-    }
-    @Transactional
-    public Session updateSession(Session session) {
         return sessionRepository.save(session);
     }
 

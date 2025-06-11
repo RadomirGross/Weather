@@ -127,7 +127,7 @@ class WeatherResponseServiceTest {
     }
 
     @Test
-    void getWeatherResponseFromLocation_whenLocationNotFound_returnsEmptyResult() throws Exception {
+    void getWeatherResponseFromLocation_whenLocationNotFound_returnsEmptyResult() {
         String emptyJson = "{}";
         when(environment.getProperty("openweathermap.api.key")).thenReturn("test-key");
 
@@ -180,7 +180,7 @@ class WeatherResponseServiceTest {
     }
 
     @Test
-    void getWeatherResponseFromLocation_whenHttpServerError_returnsErrorMessage() throws Exception {
+    void getWeatherResponseFromLocation_whenHttpServerError_returnsErrorMessage()  {
         when(environment.getProperty("openweathermap.api.key")).thenReturn("test-key");
 
         mockServer.expect(ExpectedCount.once(),
