@@ -31,15 +31,15 @@ public class JpaConfig {
         this.environment = environment;
     }
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("hibernate.connection.driver_class")));
-        dataSource.setUrl(environment.getProperty("hibernate.connection.url"));
-        dataSource.setUsername(environment.getProperty("hibernate.connection.username"));
-        dataSource.setPassword(environment.getProperty("hibernate.connection.password"));
-        return dataSource;
-    }
+        @Bean
+        public DataSource dataSource() {
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("spring.datasource.driver-class-name")));
+            dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+            dataSource.setUsername(environment.getProperty("spring.datasource.username"));
+            dataSource.setPassword(environment.getProperty("spring.datasource.password"));
+            return dataSource;
+        }
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
