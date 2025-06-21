@@ -1,0 +1,14 @@
+openweathermap.api.key=Получите ключ на https://openweathermap.org/
+
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://localhost:5432/weather
+spring.datasource.username=your-db-user
+spring.datasource.password=your-db-password
+
+hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+hibernate.hbm2ddl.auto=none
+
+hibernate.show_sql=true
+hibernate.format_sql=true
+
+logging.level.liquibase=DEBUG
