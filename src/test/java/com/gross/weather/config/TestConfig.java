@@ -20,11 +20,7 @@ import javax.sql.DataSource;
 
 @Profile("test")
 @Configuration
-@ComponentScan(
-        basePackages = {
-                "com.gross.weather  "
-        }
-)
+@ComponentScan("com.gross.weather")
 @EnableJpaRepositories(basePackages = "com.gross.weather.repositories")
 public class TestConfig {
 
@@ -33,9 +29,9 @@ public class TestConfig {
     @Bean
     public DataSource dataSource() {
         return new DriverManagerDataSource(
-                PostgresContainerHolder.POSTGRES_CONTAINER.getJdbcUrl(),
-                PostgresContainerHolder.POSTGRES_CONTAINER.getUsername(),
-                PostgresContainerHolder.POSTGRES_CONTAINER.getPassword()
+                PostgresContainerHolder.getInstance().getJdbcUrl(),
+                PostgresContainerHolder.getInstance().getUsername(),
+                PostgresContainerHolder.getInstance().getPassword()
         );
     }
 

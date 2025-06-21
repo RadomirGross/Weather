@@ -1,0 +1,32 @@
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: weather
+      POSTGRES_USER: user333
+      POSTGRES_PASSWORD: password4444
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    #image: grossradomir/weather_app:1.2
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - "80:8080"
+    environment:
+      openweathermap.api.key: "Получите ключ на https://openweathermap.org/"
+      spring.datasource.url: jdbc:postgresql://postgres:5432/weather
+      spring.datasource.username: user333
+      spring.datasource.password: password4444
+
+
+
+volumes:
+  postgres_data:
+
+

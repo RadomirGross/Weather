@@ -14,8 +14,10 @@ public class LiquibaseConfig {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog("classpath:db/changelog/db.changelog-master.xml");
+        System.out.println(">>>> LiquibaseConfig is active and will run migrations");
+        liquibase.setShouldRun(true);
         liquibase.setDropFirst(false);
-        liquibase.setShouldRun(false);
+
         return liquibase;
     }
 }

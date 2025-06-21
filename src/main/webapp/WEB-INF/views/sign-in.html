@@ -8,7 +8,7 @@
     <link rel="icon" th:href="@{/resources/images/favicon.ico}" type="image/x-icon">
 </head>
 <body>
-<div th:if="${session.error}" class="alert alert-danger" th:text="${session.error}"></div>
+<div th:if="${session.error} and !${successful}" class="alert alert-danger" th:text="${session.error}"></div>
 <div th:if="${successful}" class="alert alert-success" th:text="${successful}"></div>
 
 <div class="container">
@@ -38,7 +38,9 @@
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign In</button>
                 <p class="mt-2 text-center">Don't have an account? <a href="/sign-up">Sign up here</a></p>
+
             </form>
+
         </div>
     </div>
 </div>

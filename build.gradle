@@ -6,7 +6,7 @@ plugins {
 }
 
 jacoco {
-    toolVersion = "0.8.11" // последняя стабильная на 2025 год
+    toolVersion = "0.8.11"
 }
 
 test {
@@ -18,7 +18,7 @@ jacocoTestReport {
     dependsOn test
     reports {
         xml.required = true
-        html.required = true // удобно смотреть
+        html.required = true
     }
 }
 
@@ -75,10 +75,8 @@ dependencies {
 
     testImplementation 'org.assertj:assertj-core:3.25.1'
 
-    testImplementation 'org.testcontainers:junit-jupiter:1.19.3'
-    testImplementation 'org.testcontainers:postgresql:1.19.3'
+    testImplementation 'org.testcontainers:testcontainers:1.19.8'
+    testImplementation 'org.testcontainers:postgresql:1.19.8'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.8'
 }
 
-test {
-    useJUnitPlatform()
-}
